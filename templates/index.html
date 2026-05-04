@@ -24,19 +24,6 @@
         </nav>
     </header>
 
-        {% if live_data %}
-    <section class="breaking-news" style="margin-bottom:28px;">
-        <div class="breaking-badge">🏁 ПОСЛЕДНЯЯ ГОНКА</div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="breaking-title">{{ live_data.competition.name }} · {{ live_data.circuit.name }}</h1>
-                <p class="breaking-sub">{{ live_data.date }}</p>
-                <p class="breaking-sub">Статус: {{ live_data.status }}</p>
-            </div>
-        </div>
-    </section>
-    {% else %}
-    {% endif %}
 
     <section class="breaking-news">
         <div class="breaking-badge">⚡ BREAKING</div>
@@ -65,6 +52,14 @@
             <div class="card-content">
                 <h3>{{ item.title }}</h3>
                 <p>{{ item.text }}</p>
+                                <div class="reactions" data-news="{{ item.id }}">
+                    <button class="react-btn like-btn {% if item.user_action == 'like' %}active{% endif %}" data-action="like">
+                        👍 <span class="like-count">{{ item.likes }}</span>
+                    </button>
+                    <button class="react-btn dislike-btn {% if item.user_action == 'dislike' %}active{% endif %}" data-action="dislike">
+                        👎 <span class="dislike-count">{{ item.dislikes }}</span>
+                    </button>
+                </div>
                 <span class="card-date">{{ item.date }}</span>
             </div>
         </div>

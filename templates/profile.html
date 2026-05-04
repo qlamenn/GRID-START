@@ -9,21 +9,59 @@
             <span class="logo-sub">F1 NEWS · 2026</span>
         </div>
         <nav>
-            <a href="{{ url_for('index') }}">НА ГЛАВНУЮ</a>
+            <a href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+            <a href="{{ url_for('races') }}">ГОНКИ</a>
+            <a href="{{ url_for('teams') }}">КОМАНДЫ</a>
+            <a href="{{ url_for('drivers') }}">ПИЛОТЫ</a>
+            <a href="{{ url_for('circuits') }}">ТРАССЫ</a>
             <a href="{{ url_for('logout') }}">ВЫХОД</a>
         </nav>
     </header>
 
-    <div class="form-wrapper" style="max-width:600px; margin:0 auto;">
-        <div class="dev-section">
-            <div class="dev-icon">🏎️</div>
-            <h2 class="dev-title">{{ user.username }}</h2>
-            <p class="dev-text">Email: {{ user.email }}</p>
-            <p class="dev-text">Любимая команда: {{ user.team }}</p>
-            <p class="dev-text">На сайте с: {{ user.date.strftime('%d.%m.%Y') }}</p>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; margin-top:20px;">
+
+        <div class="form-wrapper" style="flex:1; min-width:300px;">
+            <div class="dev-section">
+                <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" alt="avatar"
+                     style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid var(--red); margin-bottom:12px;"
+                     onerror="this.src='{{ url_for('static', filename='uploads/default.png') }}'">
+                <h2 class="dev-title">{{ user.username }}</h2>
+                <p class="dev-text">Email: {{ user.email }}</p>
+                <p class="dev-text">Команда: {{ user.team }}</p>
+                <p class="dev-text">На сайте с: {{ user.date.strftime('%d.%m.%Y') }}</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('upload_avatar') }}" enctype="multipart/form-data">
+                <div class="input-group">
+                    <label>СМЕНИТЬ АВАТАР</label>
+                    <input type="file" name="avatar" accept="image/*">
+                </div>
+                <button type="submit" class="submit-btn">ЗАГРУЗИТЬ</button>
+            </form>
         </div>
 
-        {% if messages %}
+        <div class="form-wrapper" style="flex:1; min-width:300px;">
+            <h3 class="form-title">СМЕНИТЬ ПАРОЛЬ</h3>
+            <form method="POST" action="{{ url_for('change_password') }}">
+                <div class="input-group">
+                    <label>ТЕКУЩИЙ ПАРОЛЬ</label>
+                    <input type="password" name="old_password" required>
+                </div>
+                <div class="input-group">
+                    <label>НОВЫЙ ПАРОЛЬ</label>
+                    <input type="password" name="new_password" required>
+                </div>
+                <div class="input-group">
+                    <label>ПОДТВЕРДИТЕ</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="submit-btn">СМЕНИТЬ ПАРОЛЬ</button>
+            </form>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="form-wrapper" style="max-width:100%; margin-top:20px;">
         <h3 class="form-title">МОИ СООБЩЕНИЯ</h3>
         {% for msg in messages %}
         <div style="background:var(--darker); padding:14px; border-radius:8px; margin-bottom:10px;">
@@ -31,9 +69,9 @@
             <p style="color:#fff;">{{ msg.text }}</p>
         </div>
         {% endfor %}
-        {% endif %}
-
-        <a href="{{ url_for('index') }}" class="back-link">← НА ГЛАВНУЮ</a>
     </div>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-link">← НА ГЛАВНУЮ</a>
 </div>
 {% endblock %}

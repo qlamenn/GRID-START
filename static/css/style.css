@@ -762,3 +762,35 @@ input:focus, select:focus, textarea:focus {
     object-fit: contain;
     background: #000;
 }
+.reactions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.react-btn {
+    background: var(--darker);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transition);
+    font-weight: 700;
+}
+
+.react-btn:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.react-btn.active {
+    border-color: var(--red);
+    color: #fff;
+    background: rgba(225, 6, 0, 0.15);
+}
+
+.react-btn span {
+    margin-left: 4px;
+}

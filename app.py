@@ -5,9 +5,12 @@ from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 from config import Config
-from models import db, User, Message
+from models import db, User, Message, Reaction
 from forms import ContactForm, RegisterForm, LoginForm
 from datetime import datetime
+from werkzeug.utils import secure_filename
+import uuid
+from PIL import Image
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -30,6 +33,18 @@ def load_user(user_id):
 def index():
     with open('data/news.json', 'r', encoding='utf-8') as f:
         news = json.load(f)
+
+    for i, item in enumerate(news):
+        likes = Reaction.query.filter_by(news_id=i, action='like').count()
+        dislikes = Reaction.query.filter_by(news_id=i, action='dislike').count()
+        item['likes'] = likes
+        item['dislikes'] = dislikes
+        item['id'] = i
+        if current_user.is_authenticated:
+            user_react = Reaction.query.filter_by(user_id=current_user.id, news_id=i).first()
+            item['user_action'] = user_react.action if user_react else None
+        else:
+            item['user_action'] = None
 
     driver_names = {
         1: 'Норрис', 81: 'Пиастри', 63: 'Расселл', 12: 'Антонелли',
@@ -299,6 +314,87 @@ def logout():
 def profile():
     messages = Message.query.filter_by(user_id=current_user.id).all()
     return render_template('profile.html', user=current_user, messages=messages)
+
+
+@app.route('/react/<int:news_id>/<action>')
+@login_required
+def react(news_id, action):
+    if action not in ['like', 'dislike']:
+        return {'error': 'invalid action'}, 400
+
+    existing = Reaction.query.filter_by(user_id=current_user.id, news_id=news_id).first()
+    if existing:
+        if existing.action == action:
+            db.session.delete(existing)
+        else:
+            existing.action = action
+    else:
+        r = Reaction(user_id=current_user.id, news_id=news_id, action=action)
+        db.session.add(r)
+
+    db.session.commit()
+
+    likes = Reaction.query.filter_by(news_id=news_id, action='like').count()
+    dislikes = Reaction.query.filter_by(news_id=news_id, action='dislike').count()
+
+    user_action = None
+    if current_user.is_authenticated:
+        user_react = Reaction.query.filter_by(user_id=current_user.id, news_id=news_id).first()
+        if user_react:
+            user_action = user_react.action
+
+    return {'likes': likes, 'dislikes': dislikes, 'user_action': user_action}
+
+
+@app.route('/profile/avatar', methods=['POST'])
+@login_required
+def upload_avatar():
+    if 'avatar' not in request.files:
+        flash('Файл не выбран', 'danger')
+        return redirect(url_for('profile'))
+    file = request.files['avatar']
+    if file.filename == '':
+        flash('Файл не выбран', 'danger')
+        return redirect(url_for('profile'))
+    if file:
+        ext = file.filename.rsplit('.', 1)[-1].lower()
+        if ext not in ['jpg', 'jpeg', 'png', 'gif']:
+            flash('Разрешены только JPG, PNG, GIF', 'danger')
+            return redirect(url_for('profile'))
+        filename = str(uuid.uuid4()) + '.jpg'
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+        img = Image.open(file)
+        img = img.convert('RGB')
+        img = img.resize((300, 300), Image.Resampling.LANCZOS)
+        img.save(filepath, 'JPEG', quality=85)
+
+        current_user.avatar = filename
+        db.session.commit()
+        flash('Аватар обновлён!', 'success')
+    return redirect(url_for('profile'))
+
+
+@app.route('/profile/password', methods=['POST'])
+@login_required
+def change_password():
+    old = request.form.get('old_password')
+    new = request.form.get('new_password')
+    confirm = request.form.get('confirm_password')
+
+    if not bcrypt.check_password_hash(current_user.password, old):
+        flash('Неверный текущий пароль', 'danger')
+    elif new != confirm:
+        flash('Новые пароли не совпадают', 'danger')
+    elif len(new) < 6:
+        flash('Пароль минимум 6 символов', 'danger')
+    else:
+        current_user.password = bcrypt.generate_password_hash(new).decode('utf-8')
+        db.session.commit()
+        flash('Пароль изменён!', 'success')
+
+    return redirect(url_for('profile'))
 
 @app.route('/api/news')
 def api_news():

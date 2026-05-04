@@ -31,16 +31,15 @@
             <div class="dev-icon">🏎️</div>
             <h2 class="dev-title">О ПРОЕКТЕ</h2>
             <p class="dev-text">
-                ПРИВЕТ! Я <span class="highlight">НАЧИНАЮЩИЙ РАЗРАБОТЧИК</span>.<br>
-                ЭТО МОЙ ПЕРВЫЙ ПРОЕКТ — НОВОСТНОЙ САЙТ ФОРМУЛЫ 1.<br>
-                СДЕЛАНО ЧИСТО НА <span class="highlight">HTML / CSS</span>.<br><br>
+                ПРИВЕТ!  <span class="highlight"></span>.<br>
+                СДЕЛАНО ЧИСТО <span class="highlight"></span>.<br><br>
                 ХОЧЕШЬ ПОЛУЧАТЬ НОВОСТИ ИЛИ ПРЕДЛОЖИТЬ ИДЕЮ?<br>
                 ЗАПОЛНИ ФОРМУ НИЖЕ.
             </p>
         </div>
 
         <div class="form-block">
-            <h3 class="form-title">ПИТ-СТОП СВЯЗИ</h3>
+            <h3 class="form-title">ДЛЯ СВЯЗИ</h3>
 
             <form method="POST" action="{{ url_for('contact') }}">
                 {{ form.hidden_tag() }}
@@ -65,7 +64,7 @@
                     {{ form.message(rows="3", placeholder="Твоя новость или идея для сайта...") }}
                 </div>
 
-                <button type="submit" class="submit-btn">ОТПРАВИТЬ НА ПИТ-СТОП</button>
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ</button>
             </form>
         </div>
 

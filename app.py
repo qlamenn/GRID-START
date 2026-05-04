@@ -375,6 +375,11 @@ def upload_avatar():
         flash('Аватар обновлён!', 'success')
     return redirect(url_for('profile'))
 
+@app.route('/reset')
+def reset():
+    db.drop_all()
+    db.create_all()
+    return 'ok'
 
 @app.route('/profile/password', methods=['POST'])
 @login_required

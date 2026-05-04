@@ -771,6 +771,27 @@ input:focus, select:focus, textarea:focus {
         padding: 12px 14px;
         gap: 8px;
     }
+        .hero-text {
+        padding: 16px;
+    }
+    .breaking-title {
+        font-size: 1.2rem;
+    }
+    .breaking-sub {
+        font-size: 0.8rem;
+    }
+    .breaking-quote {
+        font-size: 0.75rem;
+    }
+    .breaking-meta {
+        font-size: 0.65rem;
+    }
+    .card-content h3 {
+        font-size: 0.9rem;
+    }
+    .card-content p {
+        font-size: 0.75rem;
+    }
 }
 .drivers-grid .card-img {
     height: 280px;

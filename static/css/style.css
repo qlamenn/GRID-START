@@ -751,6 +751,47 @@ input:focus, select:focus, textarea:focus {
     .form-photos img {
         width: 100%;
     }
+        .logo-text {
+        font-size: 1.3rem;
+    }
+    .logo-sub {
+        font-size: 0.6rem;
+        letter-spacing: 3px;
+    }
+    nav a {
+        padding: 6px 10px;
+        font-size: 0.65rem;
+        letter-spacing: 1px;
+    }
+    nav {
+        gap: 2px;
+        padding: 2px;
+    }
+    header {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+        .hero-text {
+        padding: 16px;
+    }
+    .breaking-title {
+        font-size: 1.2rem;
+    }
+    .breaking-sub {
+        font-size: 0.8rem;
+    }
+    .breaking-quote {
+        font-size: 0.75rem;
+    }
+    .breaking-meta {
+        font-size: 0.65rem;
+    }
+    .card-content h3 {
+        font-size: 0.9rem;
+    }
+    .card-content p {
+        font-size: 0.75rem;
+    }
 }
 .drivers-grid .card-img {
     height: 280px;

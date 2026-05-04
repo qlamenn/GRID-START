@@ -719,6 +719,15 @@ input:focus, select:focus, textarea:focus {
         height: 250px;
         clip-path: none;
     }
+        header {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    nav {
+        flex-shrink: 0;
+    }
     .news-grid {
         grid-template-columns: 1fr;
     }

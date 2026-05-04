@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}ОБРАТНАЯ СВЯЗЬ · GRID START{% endblock %}
+{% block content %}
+<div class="container">
+    <header>
+        <div class="logo">
+            <span class="logo-text">GRID START</span>
+            <span class="logo-line"></span>
+            <span class="logo-sub">F1 NEWS · 2026</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+            <a href="{{ url_for('races') }}">ГОНКИ</a>
+            <a href="{{ url_for('teams') }}">КОМАНДЫ</a>
+            <a href="{{ url_for('drivers') }}">ПИЛОТЫ</a>
+            <a href="{{ url_for('circuits') }}">ТРАССЫ</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile') }}">ПРОФИЛЬ</a>
+                <a href="{{ url_for('logout') }}">ВЫХОД</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">ВХОД</a>
+                <a href="{{ url_for('register') }}">РЕГИСТРАЦИЯ</a>
+            {% endif %}
+        </nav>
+    </header>
+</div>
+
+<div class="form-page">
+    <div class="form-wrapper">
+        <div class="dev-section">
+            <div class="dev-icon">🏎️</div>
+            <h2 class="dev-title">О ПРОЕКТЕ</h2>
+            <p class="dev-text">
+                ПРИВЕТ! Я <span class="highlight">НАЧИНАЮЩИЙ РАЗРАБОТЧИК</span>.<br>
+                ЭТО МОЙ ПЕРВЫЙ ПРОЕКТ — НОВОСТНОЙ САЙТ ФОРМУЛЫ 1.<br>
+                СДЕЛАНО ЧИСТО НА <span class="highlight">HTML / CSS</span>.<br><br>
+                ХОЧЕШЬ ПОЛУЧАТЬ НОВОСТИ ИЛИ ПРЕДЛОЖИТЬ ИДЕЮ?<br>
+                ЗАПОЛНИ ФОРМУ НИЖЕ.
+            </p>
+        </div>
+
+        <div class="form-block">
+            <h3 class="form-title">ПИТ-СТОП СВЯЗИ</h3>
+
+            <form method="POST" action="{{ url_for('contact') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group">
+                    <label for="name">ИМЯ / НИК</label>
+                    {{ form.name(placeholder="Твой никнейм") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="email">EMAIL</label>
+                    {{ form.email(placeholder="example@mail.ru") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="team">ЛЮБИМАЯ КОМАНДА</label>
+                    {{ form.team() }}
+                </div>
+
+                <div class="input-group">
+                    <label for="message">СООБЩЕНИЕ</label>
+                    {{ form.message(rows="3", placeholder="Твоя новость или идея для сайта...") }}
+                </div>
+
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ НА ПИТ-СТОП</button>
+            </form>
+        </div>
+
+        <div class="form-photos">
+            <img src="{{ url_for('static', filename='foto/foto11.jpg') }}" alt="F1" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto12.jpg') }}" alt="F1" onerror="this.style.display='none';">
+        </div>
+
+        <a href="{{ url_for('index') }}" class="back-link">← НА ГЛАВНУЮ</a>
+    </div>
+</div>
+{% endblock %}

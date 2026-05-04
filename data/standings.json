@@ -1,0 +1,26 @@
+{
+    "drivers": [
+        {"pos": 1, "name": "К. Антонелли", "team": "Mercedes", "points": 72, "wins": 2, "podiums": 3},
+        {"pos": 2, "name": "Д. Расселл", "team": "Mercedes", "points": 63, "wins": 1, "podiums": 2},
+        {"pos": 3, "name": "Ш. Леклер", "team": "Ferrari", "points": 49, "wins": 0, "podiums": 2},
+        {"pos": 4, "name": "Л. Хэмилтон", "team": "Ferrari", "points": 41, "wins": 0, "podiums": 1},
+        {"pos": 5, "name": "Л. Норрис", "team": "McLaren", "points": 25, "wins": 0, "podiums": 0},
+        {"pos": 6, "name": "О. Пиастри", "team": "McLaren", "points": 21, "wins": 0, "podiums": 1},
+        {"pos": 7, "name": "О. Берман", "team": "Haas", "points": 17, "wins": 0, "podiums": 0},
+        {"pos": 8, "name": "П. Гасли", "team": "Alpine", "points": 15, "wins": 0, "podiums": 0},
+        {"pos": 9, "name": "М. Ферстаппен", "team": "Red Bull", "points": 12, "wins": 0, "podiums": 0},
+        {"pos": 10, "name": "Л. Лоусон", "team": "Racing Bulls", "points": 10, "wins": 0, "podiums": 0}
+    ],
+    "constructors": [
+        {"pos": 1, "team": "Mercedes AMG F1", "points": 135},
+        {"pos": 2, "team": "Scuderia Ferrari", "points": 90},
+        {"pos": 3, "team": "McLaren", "points": 46},
+        {"pos": 4, "team": "Haas", "points": 18},
+        {"pos": 5, "team": "Alpine", "points": 16},
+        {"pos": 6, "team": "Red Bull", "points": 16},
+        {"pos": 7, "team": "Racing Bulls", "points": 14},
+        {"pos": 8, "team": "Audi", "points": 2},
+        {"pos": 9, "team": "Williams", "points": 2},
+        {"pos": 10, "team": "Cadillac", "points": 0}
+    ]
+}

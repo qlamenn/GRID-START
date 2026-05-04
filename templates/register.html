@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}РЕГИСТРАЦИЯ · GRID START{% endblock %}
+{% block content %}
+<div class="form-page">
+    <div class="form-wrapper">
+        <div class="dev-section">
+            <div class="dev-icon">🏁</div>
+            <h2 class="dev-title">РЕГИСТРАЦИЯ</h2>
+            <p class="dev-text">СОЗДАЙ АККАУНТ И ВСТУПАЙ В <span class="highlight">ПАДДОК</span></p>
+        </div>
+
+        <div class="form-block">
+            <form method="POST" action="{{ url_for('register') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group">
+                    <label for="username">ИМЯ ПОЛЬЗОВАТЕЛЯ</label>
+                    {{ form.username(placeholder="Твой никнейм") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="email">EMAIL</label>
+                    {{ form.email(placeholder="example@mail.ru") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="team">ЛЮБИМАЯ КОМАНДА</label>
+                    {{ form.team() }}
+                </div>
+
+                <div class="input-group">
+                    <label for="password">ПАРОЛЬ</label>
+                    {{ form.password(placeholder="Минимум 6 символов") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm">ПОДТВЕРДИТЕ ПАРОЛЬ</label>
+                    {{ form.confirm(placeholder="Повтори пароль") }}
+                </div>
+
+                <button type="submit" class="submit-btn">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+            </form>
+        </div>
+
+        <p style="text-align:center; margin-top:20px;">
+            <a href="{{ url_for('login') }}" style="color:var(--muted);">Уже есть аккаунт? Войти</a>
+        </p>
+
+        <a href="{{ url_for('index') }}" class="back-link">← НА ГЛАВНУЮ</a>
+    </div>
+</div>
+{% endblock %}

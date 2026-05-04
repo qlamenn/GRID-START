@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}ПИЛОТЫ · GRID START{% endblock %}
+{% block content %}
+<div class="container">
+
+    <header>
+        <div class="logo">
+            <span class="logo-text">GRID START</span>
+            <span class="logo-line"></span>
+            <span class="logo-sub">F1 NEWS · 2026</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+            <a href="{{ url_for('races') }}">ГОНКИ</a>
+            <a href="{{ url_for('teams') }}">КОМАНДЫ</a>
+            <a href="{{ url_for('drivers') }}">ПИЛОТЫ</a>
+            <a href="{{ url_for('circuits') }}">ТРАССЫ</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile') }}">ПРОФИЛЬ</a>
+                <a href="{{ url_for('logout') }}">ВЫХОД</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">ВХОД</a>
+                <a href="{{ url_for('register') }}">РЕГИСТРАЦИЯ</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <h2 class="section-title"><span class="red-bar"></span> ПИЛОТЫ СЕЗОНА 2026</h2>
+
+    <div class="news-grid drivers-grid">
+        {% for d in drivers %}
+        <div class="news-card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename='foto/drivers/' + d.image) }}" alt="{{ d.name }}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+                <span class="card-tag">{{ d.number }}</span>
+            </div>
+            <div class="card-content">
+                <h3>{{ d.name }}</h3>
+                <p>Команда: {{ d.team }}</p>
+                <p>Страна: {{ d.country }}</p>
+                <span class="card-date">{{ d.born }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

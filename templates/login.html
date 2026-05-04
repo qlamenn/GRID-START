@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}ВХОД · GRID START{% endblock %}
+{% block content %}
+<div class="form-page">
+    <div class="form-wrapper">
+        <div class="dev-section">
+            <div class="dev-icon">🔑</div>
+            <h2 class="dev-title">ВХОД В ПАДДОК</h2>
+        </div>
+
+        <div class="form-block">
+            <form method="POST" action="{{ url_for('login') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group">
+                    <label for="email">EMAIL</label>
+                    {{ form.email(placeholder="example@mail.ru") }}
+                </div>
+
+                <div class="input-group">
+                    <label for="password">ПАРОЛЬ</label>
+                    {{ form.password(placeholder="Твой пароль") }}
+                </div>
+
+                <div class="input-group">
+                    {{ form.remember() }} {{ form.remember.label }}
+                </div>
+
+                <button type="submit" class="submit-btn">ВОЙТИ</button>
+            </form>
+        </div>
+
+        <p style="text-align:center; margin-top:20px;">
+            <a href="{{ url_for('register') }}" style="color:var(--muted);">Нет аккаунта? Регистрация</a>
+        </p>
+
+        <a href="{{ url_for('index') }}" class="back-link">← НА ГЛАВНУЮ</a>
+    </div>
+</div>
+{% endblock %}

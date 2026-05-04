@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}GRID START · ФОРМУЛА 1 НОВОСТИ{% endblock %}
+{% block content %}
+<div class="container">
+
+    <header>
+        <div class="logo">
+            <span class="logo-text">GRID START</span>
+            <span class="logo-line"></span>
+            <span class="logo-sub">F1 NEWS · 2026</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('races') }}">ГОНКИ</a>
+            <a href="{{ url_for('teams') }}">КОМАНДЫ</a>
+            <a href="{{ url_for('drivers') }}">ПИЛОТЫ</a>
+            <a href="{{ url_for('circuits') }}">ТРАССЫ</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile') }}">ПРОФИЛЬ</a>
+                <a href="{{ url_for('logout') }}">ВЫХОД</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">ВХОД</a>
+                <a href="{{ url_for('register') }}">РЕГИСТРАЦИЯ</a>
+            {% endif %}
+        </nav>
+    </header>
+
+        {% if live_data %}
+    <section class="breaking-news" style="margin-bottom:28px;">
+        <div class="breaking-badge">🏁 ПОСЛЕДНЯЯ ГОНКА</div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="breaking-title">{{ live_data.competition.name }} · {{ live_data.circuit.name }}</h1>
+                <p class="breaking-sub">{{ live_data.date }}</p>
+                <p class="breaking-sub">Статус: {{ live_data.status }}</p>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    {% endif %}
+
+    <section class="breaking-news">
+        <div class="breaking-badge">⚡ BREAKING</div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="breaking-title">ПАТРЕЗЕ: ФЕРСТАППЕН ПОКИНЕТ RED BULL В КОНЦЕ 2026-ГО</h1>
+                <p class="breaking-sub">Бывший пилот Формулы-1 Риккардо Патрезе объяснил, почему четырёхкратный чемпион Макс Ферстаппен покинет «Ред Булл» в конце сезона-2026.</p>
+                <p class="breaking-quote">«Если Ламбьязе уходит в McLaren, это значит, что Макс тоже покинет Red Bull. Он чувствует себя не очень счастливым. Так что в конце этого сезона он, вероятно, предпримет свой шаг. Он достаточно сильная личность, чтобы ему верили, когда он говорит: «Если я не буду получать удовольствие, уйду из Формулы-1». Он уже доказал, что лучший».</p>
+                <div class="breaking-meta">23 АПРЕЛЯ 2026 · ПАВЕЛ ПИКУНОВ</div>
+            </div>
+            <div class="hero-img">
+                <img src="{{ url_for('static', filename='foto/foto7.jpg') }}" alt="Макс Ферстаппен" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title"><span class="red-bar"></span> ПОСЛЕДНИЕ НОВОСТИ</h2>
+
+    <div class="news-grid">
+        {% for item in news %}
+        <div class="news-card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+                <span class="card-tag">{{ item.tag }}</span>
+            </div>
+            <div class="card-content">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+                <span class="card-date">{{ item.date }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="section-title"><span class="red-bar"></span> ЛИЧНЫЙ ЗАЧЁТ · СЕЗОН 2026</h2>
+
+    {% if drivers %}
+    <div class="standings-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>НОМЕР</th>
+                    <th>ОЧКИ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in drivers %}
+                <tr {% if d.position_current == 1 %}class="top-row"{% endif %}>
+                    <td>{{ d.position_current }}</td>
+                    <td>{{ d.name }}</td>
+                    <td class="points">{{ d.points_current }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+        <h2 class="section-title"><span class="red-bar"></span> КУБОК КОНСТРУКТОРОВ · СЕЗОН 2026</h2>
+
+    {% if constructors %}
+    <div class="standings-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>КОМАНДА</th>
+                    <th>ОЧКИ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in constructors %}
+                <tr {% if c.position_current == 1 %}class="top-row"{% endif %}>
+                    <td>{{ c.position_current }}</td>
+                    <td>{{ c.team_name }}</td>
+                    <td class="points">{{ c.points_current }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+
+    <div class="gallery-section">
+        <h2 class="section-title"><span class="red-bar"></span> ФОТО С ЭТАПОВ</h2>
+        <div class="photo-row">
+            <img src="{{ url_for('static', filename='foto/foto8.jpg') }}" alt="Гран При Австралии" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto9.jpg') }}" alt="Гран При Китая" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto10.jpg') }}" alt="Мельбурн" onerror="this.style.display='none';">
+        </div>
+        <div class="photo-row">
+            <img src="{{ url_for('static', filename='foto/foto11.jpg') }}" alt="Шанхай" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto12.jpg') }}" alt="Сузука" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto13.jpg') }}" alt="Подиум" onerror="this.style.display='none';">
+        </div>
+        <div class="photo-row">
+            <img src="{{ url_for('static', filename='foto/foto14.jpg') }}" alt="Болид" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto15.jpg') }}" alt="Трасса" onerror="this.style.display='none';">
+            <img src="{{ url_for('static', filename='foto/foto111.jpg') }}" alt="Гран При" onerror="this.style.display='none';">
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <div class="checker-flag"></div>
+        <p class="contact-text">ПРИСОЕДИНЯЙСЯ К ПАДДОКУ</p>
+        <p class="contact-sub">Есть новость или инсайд? Пиши в редакцию первым.</p>
+        <a href="{{ url_for('contact') }}" class="pit-button">СВЯЗАТЬСЯ С РЕДАКЦИЕЙ</a>
+    </div>
+
+    <footer>
+        <p>© GRID START · 2026 · НЕОФИЦИАЛЬНЫЙ ФАНАТСКИЙ ПРОЕКТ · ФОРМУЛА 1</p>
+    </footer>
+</div>
+{% endblock %}

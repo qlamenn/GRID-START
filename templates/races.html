@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}ГОНКИ · GRID START{% endblock %}
+{% block content %}
+<div class="container">
+
+    <header>
+        <div class="logo">
+            <span class="logo-text">GRID START</span>
+            <span class="logo-line"></span>
+            <span class="logo-sub">F1 NEWS · 2026</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('index') }}">ГЛАВНАЯ</a>
+            <a href="{{ url_for('races') }}">ГОНКИ</a>
+            <a href="{{ url_for('teams') }}">КОМАНДЫ</a>
+            <a href="{{ url_for('drivers') }}">ПИЛОТЫ</a>
+            <a href="{{ url_for('circuits') }}">ТРАССЫ</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile') }}">ПРОФИЛЬ</a>
+                <a href="{{ url_for('logout') }}">ВЫХОД</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">ВХОД</a>
+                <a href="{{ url_for('register') }}">РЕГИСТРАЦИЯ</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <h2 class="section-title"><span class="red-bar"></span> КАЛЕНДАРЬ СЕЗОНА 2026 · OPENF1 API</h2>
+
+    {% if error %}
+    <div class="flash danger">{{ error }}</div>
+    {% endif %}
+
+    <div class="standings-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ДАТА</th>
+                    <th>ГРАН ПРИ</th>
+                    <th>ТРАССА</th>
+                    <th>ГОРОД</th>
+                    <th>ТИП</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in meetings %}
+                <tr {% if not m.is_cancelled and m.date_start > now %}class="race-next"{% endif %}>
+                    <td>{{ m.date_start[:10] if m.date_start else '—' }}</td>
+                    <td>{{ m.meeting_name }}</td>
+                    <td>{{ m.circuit_short_name }}</td>
+                    <td>{{ m.location }}</td>
+                    <td>{{ m.circuit_type }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}
